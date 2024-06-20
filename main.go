@@ -50,7 +50,7 @@ func getTargetWord() string {
 }
 
 func formatGuess(string) {
-	formattedGuess0 := []string(guess0)
+	formattedGuess0 := []string()
 	fmt.Println(formattedGuess0)
 }
 
