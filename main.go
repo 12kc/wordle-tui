@@ -1,34 +1,60 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
-	"log"
 	"math/rand"
 	"os"
 	"time"
 )
 
-// FIX VARIABLE NAMES LATER
-// apiRequest, apiData, targetWord, jsonFormat, number etc
-var currentDay = time.Now()
-
-func getDate() {
-	fmt.Println("Welcome to Gordle, the Wordle app made in Go!")
-	fmt.Printf("Today is %s %d!", currentDay.Month(), currentDay.Day(), "\n")
+var boardLayout = [6][5]string{
+	{"a", "b", "c", "d", "e"},
+	{"a", "b", "c", "d", "e"},
+	{"a", "b", "c", "d", "e"},
+	{"a", "b", "c", "d", "e"},
+	{"a", "b", "c", "d", "e"},
+	{"a", "b", "c", "d", "e"},
 }
 
-func (targetWord string, downloadOption byte) getTargetWord() {
+var guess0 string
+var guess1 string
+var guess2 string
+var guess3 string
+var guess4 string
+var guess5 string
 
-	// Generate random line number
-	var number int
-	number = rand.Intn(1000)
-	fmt.Println(number) // For testing purposes, remove on commit
+func getTargetWord() string {
 
-	file, err := os.Open("src/words.txt")
+	rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	file, err := os.Open("words.txt")
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("Error opening file:", err)
+	}
+	defer file.Close()
+
+	var lines []string
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
 	}
 
+	if err := scanner.Err(); err != nil {
+		fmt.Println("Error reading file:", err)
+	}
+
+	randomLineNumber := rand.Intn(len(lines))
+	targetWord := lines[randomLineNumber]
+	return targetWord
 }
+
+func formatGuess(string) {
+	formattedGuess0 := []string(guess0)
+	fmt.Println(formattedGuess0)
+}
+
 func main() {
+	fmt.Scan(&guess0)
+	formatGuess(guess0)
 }
