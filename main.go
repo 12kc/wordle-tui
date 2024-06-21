@@ -12,15 +12,22 @@ var (
 	targetWord  string
 	userGuess   string
 	gameOver    bool
-	guessAmount int
+	gameWon     bool
+	guessAmount int = 0
 
-	boardLayout = [5]string{
-		{"guess1"},
-		{"guess2"},
-		{"guess3"},
-		{"guess4"},
-		{"guess5"},
+	// 0 = Empty
+	// 1 = Gray
+	// 2 = Yellow
+	// 3 = Green
+	boardColorsLayout = [6][5]int{
+		{0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0},
 	}
+	boardWordsLayout = [6]string{}
 )
 
 func generateTargetWord() string {
@@ -49,11 +56,33 @@ func generateTargetWord() string {
 	return targetWord
 }
 
-func checkGuess(string) {
-	if userGuess != targetWord {
-		guessAmount++
-	} else {
+func splitGuess() {
+
+}
+
+func checkGuess(userGuess string) {
+	if userGuess == targetWord {
 		gameOver = true
+		gameWon = true
+	} else {
+		guessAmount++
+	}
+}
+
+func appendGuess(userGuess string) {
+	switch guessAmount {
+	case 1:
+		boardWordsLayout[0] = userGuess
+	case 2:
+		boardWordsLayout[1] = userGuess
+	case 3:
+		boardWordsLayout[2] = userGuess
+	case 4:
+		boardWordsLayout[3] = userGuess
+	case 5:
+		boardWordsLayout[4] = userGuess
+	case 6:
+		boardWordsLayout[5] = userGuess
 	}
 }
 
@@ -67,5 +96,6 @@ func main() {
 	generateTargetWord()
 	fmt.Scan(userGuess)
 	checkGuess(userGuess)
+	appendGuess(userGuess)
 
 }
