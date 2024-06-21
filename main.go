@@ -8,23 +8,22 @@ import (
 	"time"
 )
 
-var boardLayout = [6][5]string{
-	{"a", "b", "c", "d", "e"},
-	{"a", "b", "c", "d", "e"},
-	{"a", "b", "c", "d", "e"},
-	{"a", "b", "c", "d", "e"},
-	{"a", "b", "c", "d", "e"},
-	{"a", "b", "c", "d", "e"},
-}
+var (
+	targetWord  string
+	userGuess   string
+	gameOver    bool
+	guessAmount int
 
-var guess0 string
-var guess1 string
-var guess2 string
-var guess3 string
-var guess4 string
-var guess5 string
+	boardLayout = [5]string{
+		{"guess1"},
+		{"guess2"},
+		{"guess3"},
+		{"guess4"},
+		{"guess5"},
+	}
+)
 
-func getTargetWord() string {
+func generateTargetWord() string {
 
 	rand.New(rand.NewSource(time.Now().UnixNano()))
 
@@ -46,15 +45,27 @@ func getTargetWord() string {
 
 	randomLineNumber := rand.Intn(len(lines))
 	targetWord := lines[randomLineNumber]
+
 	return targetWord
 }
 
-func formatGuess(string) {
-	formattedGuess0 := []string()
-	fmt.Println(formattedGuess0)
+func checkGuess(string) {
+	if userGuess != targetWord {
+		guessAmount++
+	} else {
+		gameOver = true
+	}
+}
+
+func isGameOver() {
+	if guessAmount >= 5 {
+		gameOver = true
+	}
 }
 
 func main() {
-	fmt.Scan(&guess0)
-	formatGuess(guess0)
+	generateTargetWord()
+	fmt.Scan(userGuess)
+	checkGuess(userGuess)
+
 }
