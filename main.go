@@ -27,7 +27,7 @@ var (
 		{0, 0, 0, 0, 0},
 		{0, 0, 0, 0, 0},
 	}
-	boardWordsLayout = [6]string{}
+	boardWords = [6]string{}
 )
 
 func generateTargetWord() string {
@@ -72,17 +72,17 @@ func checkGuess(userGuess string) {
 func appendGuess(userGuess string) {
 	switch guessAmount {
 	case 1:
-		boardWordsLayout[0] = userGuess
+		boardWords[0] = userGuess
 	case 2:
-		boardWordsLayout[1] = userGuess
+		boardWords[1] = userGuess
 	case 3:
-		boardWordsLayout[2] = userGuess
+		boardWords[2] = userGuess
 	case 4:
-		boardWordsLayout[3] = userGuess
+		boardWords[3] = userGuess
 	case 5:
-		boardWordsLayout[4] = userGuess
+		boardWords[4] = userGuess
 	case 6:
-		boardWordsLayout[5] = userGuess
+		boardWords[5] = userGuess
 	}
 }
 
@@ -92,10 +92,13 @@ func isGameOver() {
 	}
 }
 
+func getUserGuess() {
+	fmt.Scan(userGuess)
+	fmt.Printf("What do you think the word of the day is?\n")
+}
 func main() {
 	generateTargetWord()
-	fmt.Scan(userGuess)
+	getUserGuess()
 	checkGuess(userGuess)
 	appendGuess(userGuess)
-
 }
