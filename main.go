@@ -69,7 +69,7 @@ func checkGuess(userGuess string) {
 	}
 }
 
-func appendGuess(userGuess string) {
+func writeGuess(userGuess string) {
 	switch guessAmount {
 	case 1:
 		boardWords[0] = userGuess
@@ -96,9 +96,10 @@ func getUserGuess() {
 	fmt.Scan(userGuess)
 	fmt.Printf("What do you think the word of the day is?\n")
 }
+
 func main() {
 	generateTargetWord()
 	getUserGuess()
 	checkGuess(userGuess)
-	appendGuess(userGuess)
+	writeGuess(userGuess)
 }
