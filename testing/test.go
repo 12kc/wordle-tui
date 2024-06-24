@@ -1,17 +1,21 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func main() {
-	/* var boardCheck = [3][3]int{
-		{0, 0, 0},
-		{0, 0, 0},
-		{0, 0, 0},
-	} */
-	var boardPick = [3][3]string{}
-	var userPick string
-	fmt.Scan(&userPick)
+	/*	var word string
+		fmt.Scan(&word)
+		charSlice := make([]string, len(word))
+		for i, char := range word {
+			charSlice[i] = string(char)
+		}
+		fmt.Println(charSlice) */
 
-	boardPick[1][1] = userPick
-	fmt.Println(boardPick[1])
+	var i int = 0
+	for i = 0; i != 10000000; {
+		i++
+		fmt.Println(i)
+	}
 }

@@ -56,10 +56,6 @@ func generateTargetWord() string {
 	return targetWord
 }
 
-func splitGuess() {
-
-}
-
 func checkGuess(userGuess string) {
 	if userGuess == targetWord {
 		gameOver = true
@@ -86,20 +82,22 @@ func writeGuess(userGuess string) {
 	}
 }
 
-func isGameOver() {
-	if guessAmount >= 5 {
-		gameOver = true
-	}
-}
-
 func getUserGuess() {
-	fmt.Scan(userGuess)
-	fmt.Printf("What do you think the word of the day is?\n")
+	for ; len(userGuess) != 5; fmt.Scan(userGuess) {
+		fmt.Printf("What do you think the word of the day is?\n")
+	}
 }
 
 func main() {
 	generateTargetWord()
 	getUserGuess()
-	checkGuess(userGuess)
-	writeGuess(userGuess)
+
+	for guessAmount <= 6 {
+		checkGuess(userGuess)
+		writeGuess(userGuess)
+
+		if guessAmount >= 6 {
+			gameOver = true
+		}
+	}
 }
