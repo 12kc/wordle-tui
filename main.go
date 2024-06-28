@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -63,6 +64,15 @@ func checkGuess(userGuess string) {
 	} else {
 		guessAmount++
 	}
+	for i := range userGuess {
+		if userGuess[i+1] == targetWord[i+1] {
+			boardColorsLayout[guessAmount-1][i] = 3
+		} else if strings.Contains(string(userGuess[i+1]), targetWord) { // Convert to string to be able to compare
+			boardColorsLayout[guessAmount-1][i] = 2
+		} else {
+			boardColorsLayout[guessAmount-1][i] = 1
+		}
+	}
 }
 
 func writeGuess(userGuess string) {
@@ -83,21 +93,17 @@ func writeGuess(userGuess string) {
 }
 
 func getUserGuess() {
-	for ; len(userGuess) != 5; fmt.Scan(userGuess) {
-		fmt.Printf("What do you think the word of the day is?\n")
-	}
+	fmt.Scan(&userGuess)
+	fmt.Printf("What do you think the word of the day is?\n")
 }
 
 func main() {
 	generateTargetWord()
-	getUserGuess()
 
-	for guessAmount <= 6 {
+	if guessAmount <= 6 {
+		getUserGuess()
 		checkGuess(userGuess)
 		writeGuess(userGuess)
-
-		if guessAmount >= 6 {
-			gameOver = true
-		}
+		fmt.Println(boardColorsLayout)
 	}
 }
