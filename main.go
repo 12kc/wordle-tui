@@ -93,8 +93,15 @@ func writeGuess(userGuess string) {
 }
 
 func getUserGuess() {
-	fmt.Scan(&userGuess)
 	fmt.Printf("What do you think the word of the day is?\n")
+	for {
+		fmt.Scan(&userGuess)
+		if len(userGuess) == 5 {
+			break
+		} else {
+			fmt.Println("Please enter a 5 letter word.")
+		}
+	}
 }
 
 func main() {
