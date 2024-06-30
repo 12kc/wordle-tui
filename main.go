@@ -16,6 +16,18 @@ var (
 	gameWon     bool
 	guessAmount int
 
+	boardColorsLayout = [6][5]int{
+		// 0 = Empty
+		// 1 = Gray
+		// 2 = Yellow
+		// 3 = Green
+		{0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0},
+	}
 	boardWords = [6]string{}
 )
 
@@ -74,19 +86,7 @@ func getUserGuess() {
 	}
 }
 
-func checkGuess(userGuess, targetWord string) [6][5]int {
-	var boardColorsLayout = [6][5]int{
-		// 0 = Empty
-		// 1 = Gray
-		// 2 = Yellow
-		// 3 = Green
-		{0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0},
-	}
+func checkGuess(userGuess, targetWord string) {
 
 	if userGuess == targetWord {
 		gameOver = true
@@ -95,19 +95,15 @@ func checkGuess(userGuess, targetWord string) [6][5]int {
 		guessAmount++
 	}
 
-	for i := range userGuess {
-		if i < len(userGuess) {
-			if userGuess[i] == targetWord[i] {
-				boardColorsLayout[guessAmount][i] = 3
-			} else if strings.Contains(string(userGuess[i]), targetWord) { // Convert to string to be able to compare
-				boardColorsLayout[guessAmount][i] = 2
-			} else {
-				boardColorsLayout[guessAmount][i] = 1
-			}
+	for i := 0; i <= 5; i++ {
+		if userGuess[i] == targetWord[i] {
+			boardColorsLayout[guessAmount][i] = 3
+		} else if strings.Contains(string(userGuess[i]), targetWord) { // Convert to string to be able to compare
+			boardColorsLayout[guessAmount][i] = 2
+		} else {
+			boardColorsLayout[guessAmount][i] = 1
 		}
 	}
-
-	return boardColorsLayout
 }
 
 func main() {
