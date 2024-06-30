@@ -16,18 +16,6 @@ var (
 	gameWon     bool
 	guessAmount int
 
-	// 0 = Empty
-	// 1 = Gray
-	// 2 = Yellow
-	// 3 = Green
-	boardColorsLayout = [6][5]int{
-		{0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0},
-	}
 	boardWords = [6]string{}
 )
 
@@ -86,13 +74,27 @@ func getUserGuess() {
 	}
 }
 
-func checkGuess(userGuess, targetWord string, boardColorsLayout [6][5]int) {
+func checkGuess(userGuess, targetWord string) [6][5]int {
+	var boardColorsLayout = [6][5]int{
+		// 0 = Empty
+		// 1 = Gray
+		// 2 = Yellow
+		// 3 = Green
+		{0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0},
+	}
+
 	if userGuess == targetWord {
 		gameOver = true
 		gameWon = true
 	} else {
 		guessAmount++
 	}
+
 	for i := range userGuess {
 		if i < len(userGuess) {
 			if userGuess[i] == targetWord[i] {
@@ -104,6 +106,8 @@ func checkGuess(userGuess, targetWord string, boardColorsLayout [6][5]int) {
 			}
 		}
 	}
+
+	return boardColorsLayout
 }
 
 func main() {
@@ -111,8 +115,7 @@ func main() {
 
 	if guessAmount <= 6 {
 		getUserGuess()
-		checkGuess(userGuess, targetWord, boardColorsLayout)
+		checkGuess(userGuess, targetWord)
 		writeGuess(userGuess)
-		fmt.Println(boardColorsLayout)
 	}
 }

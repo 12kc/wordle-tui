@@ -7,7 +7,7 @@ import (
 
 func main() {
 	var userGuess string
-	var boardColorsLayout = [6][3]int {
+	var boardColorsLayout = [6][3]int{
 		{0, 0, 0},
 		{0, 0, 0},
 		{0, 0, 0},
@@ -33,9 +33,6 @@ func main() {
 				boardColorsLayout[guessAmount][i] = 1
 			}
 		}
-	}	
-
-	for i := 0; i < 6; i++ {
 		fmt.Println(boardColorsLayout)
 	}
 }
