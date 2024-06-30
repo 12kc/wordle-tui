@@ -14,7 +14,7 @@ var (
 	userGuess   string
 	gameOver    bool
 	gameWon     bool
-	guessAmount int = 0
+	guessAmount int
 
 	// 0 = Empty
 	// 1 = Gray
@@ -35,7 +35,7 @@ func generateTargetWord() string {
 
 	rand.New(rand.NewSource(time.Now().UnixNano()))
 
-	file, err := os.Open("words.txt")
+	file, err := os.Open("src/words.txt")
 	if err != nil {
 		fmt.Println("Error opening file:", err)
 	}
@@ -55,24 +55,6 @@ func generateTargetWord() string {
 	targetWord := lines[randomLineNumber]
 
 	return targetWord
-}
-
-func checkGuess(userGuess string) {
-	if userGuess == targetWord {
-		gameOver = true
-		gameWon = true
-	} else {
-		guessAmount++
-	}
-	for i := range userGuess {
-		if userGuess[i+1] == targetWord[i+1] {
-			boardColorsLayout[guessAmount-1][i] = 3
-		} else if strings.Contains(string(userGuess[i+1]), targetWord) { // Convert to string to be able to compare
-			boardColorsLayout[guessAmount-1][i] = 2
-		} else {
-			boardColorsLayout[guessAmount-1][i] = 1
-		}
-	}
 }
 
 func writeGuess(userGuess string) {
@@ -104,12 +86,32 @@ func getUserGuess() {
 	}
 }
 
+func checkGuess(userGuess, targetWord string, boardColorsLayout [6][5]int) {
+	if userGuess == targetWord {
+		gameOver = true
+		gameWon = true
+	} else {
+		guessAmount++
+	}
+	for i := range userGuess {
+		if i < len(userGuess) {
+			if userGuess[i] == targetWord[i] {
+				boardColorsLayout[guessAmount][i] = 3
+			} else if strings.Contains(string(userGuess[i]), targetWord) { // Convert to string to be able to compare
+				boardColorsLayout[guessAmount][i] = 2
+			} else {
+				boardColorsLayout[guessAmount][i] = 1
+			}
+		}
+	}
+}
+
 func main() {
 	generateTargetWord()
 
 	if guessAmount <= 6 {
 		getUserGuess()
-		checkGuess(userGuess)
+		checkGuess(userGuess, targetWord, boardColorsLayout)
 		writeGuess(userGuess)
 		fmt.Println(boardColorsLayout)
 	}
