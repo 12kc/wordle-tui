@@ -18,9 +18,9 @@ var (
 
 	boardColorsLayout = [6][5]int{
 		// 0 = Empty
-		// 1 = Gray
-		// 2 = Yellow
-		// 3 = Green
+		// 1 = Gray    / Wrong letter
+		// 2 = Yellow / Right letter, wrong place
+		// 3 = Green / Right letter, right place
 		{0, 0, 0, 0, 0},
 		{0, 0, 0, 0, 0},
 		{0, 0, 0, 0, 0},
@@ -30,6 +30,16 @@ var (
 	}
 	boardWords = [6]string{}
 )
+
+func main() {
+	generateTargetWord()
+
+	if guessAmount <= 6 {
+		fmt.Scan(&userGuess)
+		checkGuess(userGuess, targetWord)
+		writeGuess(userGuess)
+	}
+}
 
 func generateTargetWord() string {
 
@@ -57,6 +67,19 @@ func generateTargetWord() string {
 	return targetWord
 }
 
+func getUserGuess() string {
+	fmt.Printf("What do you think the word of the day is?\n")
+	for {
+		fmt.Scan(&userGuess)
+		if len(userGuess) == 5 {
+			break
+		} else {
+			fmt.Println("Please enter a 5 letter word.")
+		}
+	}
+	return userGuess
+}
+
 func writeGuess(userGuess string) {
 	switch guessAmount {
 	case 1:
@@ -74,44 +97,20 @@ func writeGuess(userGuess string) {
 	}
 }
 
-func getUserGuess() {
-	fmt.Printf("What do you think the word of the day is?\n")
-	for {
-		fmt.Scan(&userGuess)
-		if len(userGuess) == 5 {
-			break
-		} else {
-			fmt.Println("Please enter a 5 letter word.")
+func checkGuess(userGuess, targetWord string) {
+	for i := range userGuess {
+		if i < len(userGuess) {
+			if userGuess[i] == targetWord[i] {
+				boardColorsLayout[guessAmount][i] = 3
+			} else if strings.Contains(string(userGuess[i]), targetWord) { // Convert to string to be able to compare
+				boardColorsLayout[guessAmount][i] = 2
+			} else {
+				boardColorsLayout[guessAmount][i] = 1
+			}
 		}
 	}
-}
-
-func checkGuess(userGuess, targetWord string) {
-
 	if userGuess == targetWord {
 		gameOver = true
 		gameWon = true
-	} else {
-		guessAmount++
-	}
-
-	for i := 0; i <= 5; i++ {
-		if userGuess[i] == targetWord[i] {
-			boardColorsLayout[guessAmount][i] = 3
-		} else if strings.Contains(string(userGuess[i]), targetWord) { // Convert to string to be able to compare
-			boardColorsLayout[guessAmount][i] = 2
-		} else {
-			boardColorsLayout[guessAmount][i] = 1
-		}
-	}
-}
-
-func main() {
-	generateTargetWord()
-
-	if guessAmount <= 6 {
-		getUserGuess()
-		checkGuess(userGuess, targetWord)
-		writeGuess(userGuess)
 	}
 }
