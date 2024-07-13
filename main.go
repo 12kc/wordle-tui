@@ -13,8 +13,7 @@ var (
 	gameOver          bool
 	gameWon           bool
 	guessAmount       int
-	targetWord        string = generateTargetWord()
-	boardColorsLayout        = [6][5]int{
+	boardColorsLayout = [6][5]int{
 		// 0 = Empty
 		// 1 = Gray
 		// 2 = Yellow
@@ -30,10 +29,17 @@ var (
 )
 
 func main() {
+	var userGuess string = getUserGuess()
+	var targetWord string = generateTargetWord()
+
 	for ; guessAmount <= 6; guessAmount++ {
-		var userGuess string = getUserGuess()
 		checkGuess(userGuess, targetWord)
 		writeGuess(userGuess)
+		if gameWon && gameOver {
+			fmt.Printf("Congratulations! The word was %s", targetWord)
+		} else if gameOver {
+			fmt.Printf("You lost! The word was %s", targetWord)
+		}
 	}
 }
 
