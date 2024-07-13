@@ -10,17 +10,15 @@ import (
 )
 
 var (
-	targetWord  string
-	userGuess   string
-	gameOver    bool
-	gameWon     bool
-	guessAmount int
-
-	boardColorsLayout = [6][5]int{
+	gameOver          bool
+	gameWon           bool
+	guessAmount       int
+	targetWord        string = generateTargetWord()
+	boardColorsLayout        = [6][5]int{
 		// 0 = Empty
-		// 1 = Gray    / Wrong letter
-		// 2 = Yellow / Right letter, wrong place
-		// 3 = Green / Right letter, right place
+		// 1 = Gray
+		// 2 = Yellow
+		// 3 = Green
 		{0, 0, 0, 0, 0},
 		{0, 0, 0, 0, 0},
 		{0, 0, 0, 0, 0},
@@ -32,10 +30,8 @@ var (
 )
 
 func main() {
-	generateTargetWord()
-
-	if guessAmount <= 6 {
-		fmt.Scan(&userGuess)
+	for ; guessAmount <= 6; guessAmount++ {
+		var userGuess string = getUserGuess()
 		checkGuess(userGuess, targetWord)
 		writeGuess(userGuess)
 	}
@@ -68,6 +64,7 @@ func generateTargetWord() string {
 }
 
 func getUserGuess() string {
+	var userGuess string
 	fmt.Printf("What do you think the word of the day is?\n")
 	for {
 		fmt.Scan(&userGuess)
@@ -100,12 +97,15 @@ func writeGuess(userGuess string) {
 func checkGuess(userGuess, targetWord string) {
 	for i := range userGuess {
 		if i < len(userGuess) {
-			if userGuess[i] == targetWord[i] {
+			if string(userGuess[i]) == string(targetWord[i]) {
 				boardColorsLayout[guessAmount][i] = 3
-			} else if strings.Contains(string(userGuess[i]), targetWord) { // Convert to string to be able to compare
+				fmt.Println(boardColorsLayout)
+			} else if strings.Contains(targetWord, string(userGuess[i])) { // Convert to string to be able to compare
 				boardColorsLayout[guessAmount][i] = 2
+				fmt.Println(boardColorsLayout)
 			} else {
 				boardColorsLayout[guessAmount][i] = 1
+				fmt.Println(boardColorsLayout)
 			}
 		}
 	}
