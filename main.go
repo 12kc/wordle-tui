@@ -29,10 +29,10 @@ var (
 )
 
 func main() {
-	var userGuess string = getUserGuess()
 	var targetWord string = generateTargetWord()
 
 	for ; guessAmount <= 6; guessAmount++ {
+		userGuess := getUserGuess()
 		checkGuess(userGuess, targetWord)
 		writeGuess(userGuess)
 		if gameWon && gameOver {

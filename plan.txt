@@ -1,0 +1,3 @@
+use * layout
+box for board layout? maybe table without top row with label
+modal for win/lose/quit game
