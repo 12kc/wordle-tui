@@ -31,10 +31,13 @@ var (
 func main() {
 	var targetWord string = generateTargetWord()
 
-	for ; guessAmount <= 6; guessAmount++ {
+	for ; guessAmount < 6; guessAmount++ {
 		userGuess := getUserGuess()
 		checkGuess(userGuess, targetWord)
 		writeGuess(userGuess)
+		if guessAmount == 6 {
+			gameOver = true
+		}
 		if gameWon && gameOver {
 			fmt.Printf("Congratulations! The word was %s", targetWord)
 		} else if gameOver {
@@ -105,13 +108,13 @@ func checkGuess(userGuess, targetWord string) {
 		if i < len(userGuess) {
 			if string(userGuess[i]) == string(targetWord[i]) {
 				boardColorsLayout[guessAmount][i] = 3
-				fmt.Println(boardColorsLayout)
+				fmt.Println(boardColorsLayout[guessAmount])
 			} else if strings.Contains(targetWord, string(userGuess[i])) { // Convert to string to be able to compare
 				boardColorsLayout[guessAmount][i] = 2
-				fmt.Println(boardColorsLayout)
+				fmt.Println(boardColorsLayout[guessAmount])
 			} else {
 				boardColorsLayout[guessAmount][i] = 1
-				fmt.Println(boardColorsLayout)
+				fmt.Println(boardColorsLayout[guessAmount])
 			}
 		}
 	}
